@@ -3,17 +3,17 @@ const fs = require('fs');
 
 const server = http.createServer((req, res)=>{
     
-    const handleDefaultCase = (res, file) => {
+    const handleCase = (res, file) => {
         res.writeHead(200, {'Content-Type': 'text/html'})
         fs.createReadStream(__dirname+"/"+file+".html").pipe(res)
     }
 
     switch( req.url ) {
         case '/':
-            handleDefaultCase(res, "index")
+            handleCase(res, "index")
         break;
         case '/about':
-            handleDefaultCase(res, "about")
+            handleCase(res, "about")
         break;
         default:
             res.writeHead(404, {'Content-Type': 'text/html'})
