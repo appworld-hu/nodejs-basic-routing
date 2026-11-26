@@ -39,7 +39,7 @@ services:
     logging: *logging
 
   db:
-    image: mariadb:11.8.9
+    image: mariadb:13.0.2
     restart: unless-stopped
     env_file: .env
     environment:
