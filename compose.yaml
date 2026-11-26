@@ -1,0 +1,65 @@
+# Written by sshboard: the app's port is published on 127.0.0.1 only (the proxy site is in
+# front of it); the server's .env (shared/.env, outside the repository) gives the
+# settings and passwords at run time. The database and Redis have no port: they are on
+# an internal network, their data in named volumes that stay from release to release.
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    init: true
+    env_file: .env
+    environment:
+      PORT: "3000"
+      HOST: 0.0.0.0
+    ports:
+      - "127.0.0.1:3000:3000"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('net').connect(3000, '127.0.0.1').on('connect', () => process.exit(0)).on('error', () => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+      - backend
+    logging: *logging
+
+  db:
+    image: mariadb:11.8.9
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db-data:/var/lib/mysql
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - backend
+    logging: *logging
+
+networks:
+  backend:
+    internal: true
+
+volumes:
+  db-data:

@@ -1,0 +1,19 @@
+# Written by sshboard: Dependabot opens a pull request when something pinned here
+# has a new release:
+# - an image the Dockerfile names (by tag)
+# - an image compose.yaml names (by tag)
+# - a GitHub Action the workflows pin (by commit)
+version: 2
+updates:
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

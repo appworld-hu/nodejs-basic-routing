@@ -1,0 +1,36 @@
+# Written by sshboard: what stays out of the build (and so out of the image).
+
+# Secrets: the server's .env is given at run time.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# History and tooling
+.git
+.github
+.idea
+.vscode
+.DS_Store
+
+# Local dependencies and caches: the image installs its own.
+node_modules
+npm-debug.log*
+.pnpm-store
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+coverage
+
+# The container files themselves
+Dockerfile
+.dockerignore
+compose.yaml
+compose.yml
+docker-compose.yaml
+docker-compose.yml
