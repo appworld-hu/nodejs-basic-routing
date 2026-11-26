@@ -3,14 +3,14 @@
 # code. Secrets are not built in: the server's .env is given at run time (compose.yaml).
 # The file is yours to edit; sshboard shows any change of its own before writing it.
 
-FROM node:24.22.3-slim AS build
+FROM node:26.13.0-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 RUN npm prune --omit=dev
 
-FROM node:24.22.3-slim
+FROM node:26.13.0-slim
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /app ./
