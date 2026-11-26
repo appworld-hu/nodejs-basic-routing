@@ -8,8 +8,5 @@
     "start": "node app.js"
   },
   "author": "Appworld",
-  "license": "ISC",
-  "dependencies": {
-    "nodemon": "^3.0.1"
-  }
+  "license": "ISC"
 }
