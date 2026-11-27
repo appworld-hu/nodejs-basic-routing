@@ -14,6 +14,9 @@ const server = http.createServer((req, res) => {
     case "/about":
       handleCase(res, "about");
       break;
+    case "/contact":
+      handleCase(res, "contact");
+      break;
     default:
       handleCase(res, "404", 404);
       break;
